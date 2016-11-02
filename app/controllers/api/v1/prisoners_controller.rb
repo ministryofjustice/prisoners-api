@@ -317,9 +317,12 @@ module Api
       end
 
       def updated_after
-        @_updated_after ||= Time.parse(params[:updated_after])
-      rescue ArgumentError, TypeError
-        nil
+        @_updated_after ||=
+          begin
+            Time.parse(params[:updated_after])
+          rescue ArgumentError, TypeError
+            nil
+          end
       end
     end
   end
