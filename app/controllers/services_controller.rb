@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :authorise_admin!
   before_action :set_service, only: [:show, :edit, :update, :destroy]
 
