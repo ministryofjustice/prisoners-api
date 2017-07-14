@@ -2,6 +2,8 @@ module ParseOffenders
   module_function
 
   def call(data)
+    @import_time = Time.now
+
     errors = []
 
     SmarterCSV.process(data, chunk_size: 1000, key_mapping: keys_mapping, remove_empty_values: false) do |chunk|
@@ -20,7 +22,21 @@ module ParseOffenders
       offender = Offender.find_or_create_by(noms_id: row[:noms_id])
       offender.update(offender_attrs(row))
 
-      identity = offender.identities.find_or_initialize_by(nomis_offender_id: row[:nomis_offender_id])
+      # Original implementation commented out - reliant on NOMIS_OFFENDER_ID
+      # being present in extract.
+
+      # identity = offender.identities.find_or_initialize_by(nomis_offender_id: row[:nomis_offender_id])
+      # errors << row unless identity.update(identity_attrs(row))
+      #
+      # set_current_offender(offender, identity, row)
+
+
+      # Interim implementation. Destroys all identities on an offender which
+      # were present prior to the start of the import then recreates from extract.
+
+      offender.identities.where('identities.created_at < ?', @import_time).destroy_all
+
+      identity = offender.identities.new(nomis_offender_id: row[:nomis_offender_id])
       errors << row unless identity.update(identity_attrs(row))
 
       set_current_offender(offender, identity, row)

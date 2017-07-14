@@ -9,6 +9,7 @@ AllCops:
     - 'config/**/*'
     - 'spec/support/oauth_helper.rb'
     - 'vendor/**/*'
+    - 'app/services/parse_offenders.rb'
 
 # Prefer sensible naming to comments everywhere.
 Documentation:
