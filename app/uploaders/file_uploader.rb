@@ -1,8 +1,11 @@
 class FileUploader < CarrierWave::Uploader::Base
-  storage :file
-
   def content_type_whitelist
-    ['text/csv', 'text/comma-separated-values', 'application/vnd.ms-excel']
+    %w(
+      text/csv
+      text/comma-separated-values
+      application/vnd.ms-excel
+      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    )
   end
 
   def store_dir

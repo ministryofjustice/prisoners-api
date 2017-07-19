@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe ParseOffenders do
-  let(:csv_data) { fixture_file_upload('files/data.csv', 'text/csv') }
+  let(:excel_data) { fixture_file_upload('files/data.xls', 'application/vnd.ms-excel') }
 
   describe '#call' do
     context 'when parsing offenders' do
       context 'when offenders do not exist in local database' do
-        before { described_class.call(csv_data) }
+        before { described_class.call(excel_data) }
 
         it 'creates offender records' do
           expect(Offender.count).to eq(2)
@@ -34,10 +34,10 @@ RSpec.describe ParseOffenders do
         end
 
         it 'imports all the fields correctly for the identity' do
-          identity = Identity.find_by!(nomis_offender_id: '1055829')
+          identity = Identity.find_by!(nomis_offender_id: '1055829'.to_i)
 
           expect(identity.noms_id).to eq('A1234BC')
-          expect(identity.nomis_offender_id).to eq('1055829')
+          expect(identity.nomis_offender_id).to eq('1055829'.to_i)
           expect(identity.given_name_1).to eq('JOHN')
           expect(identity.given_name_2).to eq('LUKE')
           expect(identity.given_name_3).to eq('FRANK')
@@ -58,10 +58,10 @@ RSpec.describe ParseOffenders do
         before do
           offender_one = create(:offender, noms_id: 'A1234BC')
           offender_two = create(:offender, noms_id: 'A1234BU')
-          create(:identity, offender: offender_one, nomis_offender_id: '1056827')
-          create(:identity, offender: offender_one, nomis_offender_id: '1055829')
-          create(:identity, offender: offender_two, nomis_offender_id: '1055847')
-          described_class.call(csv_data)
+          create(:identity, offender: offender_one, nomis_offender_id: '1056827'.to_i)
+          create(:identity, offender: offender_one, nomis_offender_id: '1055829'.to_i)
+          create(:identity, offender: offender_two, nomis_offender_id: '1055847'.to_i)
+          described_class.call(excel_data)
         end
 
         it 'does not create new offender records' do
@@ -90,10 +90,10 @@ RSpec.describe ParseOffenders do
         end
 
         it 'updates all the fields correctly for the identity' do
-          identity = Identity.find_by!(nomis_offender_id: '1055829')
+          identity = Identity.find_by!(nomis_offender_id: '1055829'.to_i)
 
           expect(identity.noms_id).to eq('A1234BC')
-          expect(identity.nomis_offender_id).to eq('1055829')
+          expect(identity.nomis_offender_id).to eq('1055829'.to_i)
           expect(identity.given_name_1).to eq('JOHN')
           expect(identity.given_name_2).to eq('LUKE')
           expect(identity.given_name_3).to eq('FRANK')
@@ -110,12 +110,12 @@ RSpec.describe ParseOffenders do
       end
     end
 
-    context 'invalid CSV data' do
+    context 'invalid Excel data' do
       context 'with invalid records' do
-        let(:csv_data) { fixture_file_upload('files/invalid_data.csv', 'text/csv') }
+        let(:excel_data) { fixture_file_upload('files/invalid_data.xls', 'application/vnd.ms-excel') }
 
         it 'returns an array with 3 hashes' do
-          errors = described_class.call(csv_data)
+          errors = described_class.call(excel_data)
           expect(errors.size).to eq 3
           expect(errors.all? { |e| e.is_a?(Hash) }).to be true
         end

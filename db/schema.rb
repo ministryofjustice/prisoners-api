@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170712083744) do
+ActiveRecord::Schema.define(version: 20170718124456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20170712083744) do
 
   create_table "identities", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid     "offender_id"
-    t.string   "nomis_offender_id"
+    t.integer  "nomis_offender_id"
     t.string   "title"
     t.string   "given_name_1"
     t.string   "given_name_2"

@@ -27,4 +27,4 @@ en:
 
   errors:
     messages:
-      content_type_whitelist_error: has to be a CSV file
+      content_type_whitelist_error: has to be a CSV or Excel spreadsheet file

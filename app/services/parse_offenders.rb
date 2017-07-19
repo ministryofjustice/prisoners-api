@@ -1,11 +1,20 @@
 module ParseOffenders
   module_function
 
-  def call(data)
+  def call(file)
     errors = []
 
-    SmarterCSV.process(data, chunk_size: 1000, key_mapping: keys_mapping, remove_empty_values: false) do |chunk|
-      chunk.each { |row| parse_row(row, errors) }
+    data = Roo::Spreadsheet.open(file, extension: :xls)
+    data.each_with_pagename do |_name, sheet|
+      sheet.each(keys_mapping) do |row|
+        next if row[:noms_id] == 'NOMS_NUMBER'
+
+        begin
+          parse_row(row, errors)
+        rescue
+          errors << row
+        end
+      end
     end
 
     errors
@@ -28,12 +37,21 @@ module ParseOffenders
 
     def keys_mapping
       {
-        noms_number: :noms_id,
-        nomis_offender_id: :nomis_offender_id,
-        salutation: :title,
-        gender_code: :gender,
-        pnc_id: :pnc_number,
-        criminal_records_office_number: :cro_number
+        noms_id: 'NOMS_NUMBER',
+        nomis_offender_id: 'NOMIS_OFFENDER_ID',
+        date_of_birth: 'DATE_OF_BIRTH',
+        given_name_1: 'GIVEN_NAME_1',
+        given_name_2: 'GIVEN_NAME_2',
+        given_name_3: 'GIVEN_NAME_3',
+        surname: 'SURNAME',
+        title: 'SALUTATION',
+        gender: 'GENDER_CODE',
+        pnc_number: 'PNC_ID',
+        nationality_code: 'NATIONALITY_CODE',
+        cro_number: 'CRIMINAL_RECORDS_OFFICE_NUMBER',
+        establishment_code: 'ESTABLISHMENT_CODE',
+        ethnicity_code: 'ETHNICITY_CODE',
+        working_name: 'WORKING_NAME'
       }
     end
 

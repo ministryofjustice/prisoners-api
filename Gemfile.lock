@@ -239,6 +239,13 @@ GEM
       ffi (>= 0.5.0)
     redis (3.3.3)
     request_store (1.3.2)
+    roo (2.7.1)
+      nokogiri (~> 1)
+      rubyzip (~> 1.1, < 2.0.0)
+    roo-xls (1.1.0)
+      nokogiri
+      roo (>= 2.0.0beta1, < 3)
+      spreadsheet (> 0.9.0)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -262,9 +269,11 @@ GEM
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-ole (1.2.12.1)
     ruby-progressbar (1.8.1)
     ruby_parser (3.8.4)
       sexp_processor (~> 4.1)
+    rubyzip (1.2.1)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -290,7 +299,8 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
-    smarter_csv (1.1.4)
+    spreadsheet (1.1.4)
+      ruby-ole (>= 1.0)
     spring (2.0.1)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -364,6 +374,7 @@ DEPENDENCIES
   rack-throttle
   rails (~> 5.0.1)
   rails-controller-testing
+  roo-xls
   rspec-mocks
   rspec-rails
   rubocop
@@ -373,7 +384,6 @@ DEPENDENCIES
   shoulda-matchers (~> 3.1.0)
   sidekiq
   simplecov
-  smarter_csv
   spring
   spring-watcher-listen (~> 2.0.0)
   swagger-blocks

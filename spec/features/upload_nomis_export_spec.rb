@@ -28,7 +28,7 @@ RSpec.feature 'Upload NOMIS export', type: :feature do
 
       click_button 'Import'
 
-      expect(page).to have_content('Offenders file has to be a CSV file')
+      expect(page).to have_content('Offenders file has to be a CSV or Excel spreadsheet file')
     end
   end
 end
