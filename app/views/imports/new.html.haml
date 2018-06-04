@@ -7,10 +7,8 @@
   New import
 
 = form_for @import, html: { multipart: true } do |f|
-  = f.hidden_field :offenders_file
-
   .form-group
-    != f.label :offenders_file, class: 'form-label'
-    != f.file_field :offenders_file, class: 'form-control'
+    != f.label :nomis_exports, class: 'form-label'
+    != f.file_field :nomis_exports, multiple: true, class: 'form-control'
 
   = f.submit 'Import', class: "button"

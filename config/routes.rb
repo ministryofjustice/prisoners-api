@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   root to: 'home#show'
 
   resources :services
-  resources :imports, only: [:new, :create]
+  resources :imports, only: [:new, :create] do
+    get 'errors_log', on: :collection
+  end
 
   namespace :api, format: :json do
     scope module: :v1, constraints: ApiConstraint.new(version: 1) do

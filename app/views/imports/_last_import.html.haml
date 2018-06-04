@@ -1,21 +1,20 @@
-%h2
-  Last import
-
 - unless last_import
-  %p
-    No previous imports found.
-
+  %h2 No previous imports found.
 - else
-  %table
-    %thead
-      %tr
-        %th
-          File
-        %th
-          Date
-    %tbody
-      %tr
-        %td
-          = last_import.offenders_file.file.filename
-        %td
-          = last_import.created_at.strftime('%d/%m/%Y %H:%M:%S')
+  - if last_import.status == 'in_progress'
+    %h2 Import in progress
+    %p= "Importing files: #{last_import.files}"
+  - else
+    %h2 Last performed import
+    %table
+      %thead
+        %tr
+          %th
+            Report
+      %tbody
+        - last_import.report_log&.each_line do |file_log|
+          %tr
+            %td
+              = file_log
+  - if last_import.error_log
+    = link_to 'Download error log', errors_log_imports_path

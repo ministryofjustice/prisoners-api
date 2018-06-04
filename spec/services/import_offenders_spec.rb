@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ImportOffenders do
-  let(:import) { Import.create(offenders_file: offenders_file) }
+  let(:import) { Import.create(nomis_exports: [nomis_export]) }
 
   describe '#call' do
     context 'when successful' do
-      let(:offenders_file) { fixture_file_upload('files/data.csv', 'text/csv') }
+      let(:nomis_export) { fixture_file_upload('files/data_1.csv', 'text/csv') }
 
       it 'calls the parse csv service with the data' do
-        expect(ParseOffenders).to receive(:call).with(import.offenders_file.file.file).and_return([])
+        expect(ParseOffenders).to receive(:call).with(import.nomis_exports.first.file.file).and_return([])
         ImportOffenders.call(import)
       end
 
@@ -18,14 +18,14 @@ RSpec.describe ImportOffenders do
       end
 
       it 'removes all other imports' do
-        Import.create(offenders_file: offenders_file)
+        Import.create(nomis_exports: [nomis_export])
         ImportOffenders.call(import)
         expect(Import.count).to be 1
       end
     end
 
     context 'when failing' do
-      let(:offenders_file) { fixture_file_upload('files/invalid_data.csv', 'text/csv') }
+      let(:nomis_export) { fixture_file_upload('files/invalid_data.csv', 'text/csv') }
 
       it 'marks the import failed' do
         ImportOffenders.call(import)
@@ -33,7 +33,7 @@ RSpec.describe ImportOffenders do
       end
 
       it 'saves the errors' do
-        expected_log = [
+        offenders_with_errors = [
           {
             noms_id: '',
             nomis_offender_id: 1_056_827,
@@ -88,7 +88,10 @@ RSpec.describe ImportOffenders do
         ]
 
         ImportOffenders.call(import)
-        expect(import.error_log).to eq(expected_log.to_json)
+
+        error_header = "There were some errors in file invalid_data.csv\n"
+        error_log = error_header + offenders_with_errors.join("\n")
+        expect(import.error_log).to eq(error_log)
       end
 
       it 'sends an email' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ParseOffenders do
-  let(:csv_data) { fixture_file_upload('files/data.csv', 'text/csv') }
+  let(:csv_data) { fixture_file_upload('files/data_1.csv', 'text/csv') }
 
   describe '#call' do
     context 'when parsing offenders' do

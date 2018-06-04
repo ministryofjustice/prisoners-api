@@ -13,9 +13,9 @@ RSpec.describe NotificationMailer, type: :mailer do
 
     before(:each) do
       allow(import).to receive(:created_at).and_return(Time.now)
-      allow(import).to receive(:offenders_file).and_return('file_path')
-      allow(import).to receive(:identities_file).and_return('file_path')
-      allow(import).to receive(:error_log).and_return([{ noms_id: 'AB123X' }].to_json)
+      allow(import).to receive(:nomis_exports).and_return(['file_path'])
+      allow(import).to receive(:report_log).and_return('File data_1.csv failed')
+      allow(import).to receive(:error_log).and_return('Errors in file')
     end
 
     it 'renders the subject' do

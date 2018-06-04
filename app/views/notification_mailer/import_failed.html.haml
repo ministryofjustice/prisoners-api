@@ -1,5 +1,3 @@
 - if @import
   %p
-    = "An error occurred while importing offenders file: #{@import.offenders_file}, on: #{@import.created_at}"
-%p
-  = @error
+    = @import.report_log

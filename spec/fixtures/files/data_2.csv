@@ -1,0 +1,4 @@
+"NOMS Number","Alias Offender Id","Alias Date of Birth","Alias Given Name 1","Alias Given Name 2","Alias Given Name 3","Alias Surname","Salutation","Alias Gender","PNC ID","Nationality Code","Ethnic Code","Ethnic Description","Sexual Orientation Code","Sexual Orientation Description","Criminal Records Office number","Associated Establishment Code","Alias or Working Name?"
+"A1234BC","1056827","1970/01/30 00:00:00","MARK","LARRY","JOE","LATITUDE","MR","M","05/103329A","BRIT","W1",,,,"309129/05R","LEI","Working Name"
+"A1234BC","1055829","1980/02/20 00:00:00","JOHN","LUKE","FRANK","DOE","MR","M","07/3862805R","BRIT","B1",,,,"339223/02H","LEI","Alias"
+"A1234BU","1055847","1990/03/10 00:00:00","BOB","ROBERT",,"DYLAN","MR","M","04/837105K","BRIT","A1",,,,"378468/01T","BXI","Working Name"
